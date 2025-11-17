@@ -16,7 +16,7 @@ With OOP in JavaScript, it's possible to use factory functions to achieve encaps
 How would you explain to a budding developer what the drawbacks of using factory functions are and why it is better to use classes instead?
 
 ## Response 1
-
+**`Classes`** are more easier to understand and are more flexible compared to factrory functions. In **`factory functions`** you have to manually manipulate the function, in classes you can inheret the method, meaning it is easier to call-back. Even when working with code libraries, classes integrate well.
 
 ---
 
@@ -25,7 +25,30 @@ How would you explain to a budding developer what the drawbacks of using factory
 Explain what factors you should consider when deciding to make a property/method private? Provide an example to support your response.
 
 ## Response 2
+When deciding when to make a property/method private, first you have to think about what should'nt be **"inhereted or manipulated"**. A great example is when making a **password** private. 
 
+```js
+class Password{
+  #password
+  constructor(password){
+    this.#password = password;
+  };
+
+    checkPassword(attempt) {
+    return attempt === this.#password ?
+      true : false;
+  };
+
+  setPassword(oldPassword, newPassword) {
+    if (oldPassword === this.#password) {
+      this.#password = newPassword
+      return true
+    }
+    return false
+  };
+};
+```
+In the provided example shown above, the only way to call the `#password` instance, you have to use one of the given methods, `checkPassword`, `setPassword`.
 
 ---
 
@@ -34,6 +57,38 @@ Explain what factors you should consider when deciding to make a property/method
 Explain what factors you should consider when deciding to make a property/method static? Provide an example to support your response.
 
 ## Response 3
+When deciding to make a property/method static you have to decide if you want the property/method to be interpreted when the whole **`class`** is instanced.
+```js
+class BankAccount {
+  #balance;
+  static #totalBalance = 0;
+
+  constructor(firstName, lastName, balance) {
+  }
+
+  deposit(amount) {
+  }
+
+  withdraw(amount) {
+  }
+
+  static getTotalHoldings() {
+  }
+
+  showBalance() {
+  }
+}
+const account1 = new BankAccount('Alan', 'Turing'); 
+const account2 = new BankAccount('Ada', 'Lovelace', 100);
+
+console.log(account1.deposit(50));    // prints "Your new balance is $50.00"
+console.log(account1.deposit(20.5));  // prints "Your new balance is $70.50"
+console.log(account1.withdraw(10));   // prints "Your new balance is $60.50"
+console.log(account1.withdraw(100));  // prints "You do not have enough funds"
+
+console.log(BankAccount.getTotalHoldings()); // prints 160.50
+```
+In the **class** example shown above, when the Bank Account class is instanced into multiple accounts, the `totalBalance`property will still keep track of the times the Bank Account class was called. 
 
 ---
 
@@ -56,3 +111,4 @@ class Vault {
 Identify what the mistake is, explain why it is a problem, and suggest a way to fix it.
 
 ## Response 4
+When looking through the **class** property `Vault`, there is no constructor to default a value for the private property `#secrets`. Therefore, making it impossible to change the value. 
